@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-rgb: 240, 240, 240;
@@ -10,13 +16,13 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-rgb: 30, 30, 30; 
+    --background-rgb: 10, 10, 10;
   }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background-color: rgb(var(--background-rgb));
+  color: rgb(var(--foreground-rgb)) !important;
+  background-color: rgb(var(--background-rgb)) !important;
 }
 
 @layer utilities {
