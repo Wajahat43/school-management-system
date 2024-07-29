@@ -5,6 +5,7 @@ import { readFile, writeFile } from "@/utils/helpers/file-helpers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { SUBJECT_FILE_PATH } from "@/utils/constants";
+import exp from "constants";
 
 export async function fetchSubjects(): Promise<Subject[]> {
   const jsonContent = readFile(SUBJECT_FILE_PATH);
@@ -25,7 +26,7 @@ export async function addSubject(formData: FormData): Promise<void> {
     name: formData.get("name") as string,
     description: formData.get("description") as string,
     creditHours: parseInt(formData.get("creditHours") as string),
-    isCore: (formData.get("isActive") ? true : false) as boolean,
+    isCore: (formData.get("isCore") ? true : false) as boolean,
   };
   subjects.push(subject);
 
@@ -41,7 +42,7 @@ export async function updateSubject(id: string, formData: FormData): Promise<voi
     name: formData.get("name") as string,
     description: formData.get("description") as string,
     creditHours: parseInt(formData.get("creditHours") as string),
-    isCore: (formData.get("isActive") ? true : false) as boolean,
+    isCore: (formData.get("isCore") ? true : false) as boolean,
   };
   const index = subjects.findIndex((subj) => subj.id === id);
   if (index !== -1) {
@@ -50,4 +51,17 @@ export async function updateSubject(id: string, formData: FormData): Promise<voi
     revalidatePath("/subjects");
     redirect("/subjects");
   }
+}
+
+export async function deleteSubject(id: string): Promise<void> {
+  const subjects = await fetchSubjects();
+  const index = subjects.findIndex((subj) => subj.id === id);
+
+  if (index === -1) {
+    return;
+  }
+  subjects.splice(index, 1);
+  writeFile(SUBJECT_FILE_PATH, JSON.stringify(subjects));
+  revalidatePath("/subjects");
+  redirect("/subjects");
 }

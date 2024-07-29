@@ -1,6 +1,7 @@
 import { Subject } from "@/models/subject-model";
 import Link from "next/link";
 import ConfirmedAction from "@/components/ui/confirmed-action/confirmed-action";
+import { deleteSubject } from "@/actions/subject-actions";
 
 function SubjectTable({ subjects }: { subjects: Subject[] }) {
   return (
@@ -38,9 +39,9 @@ function SubjectTable({ subjects }: { subjects: Subject[] }) {
                     Edit
                   </Link>
 
-                  {/* <ConfirmedAction>
+                  <ConfirmedAction action={deleteSubject.bind(null, subject.id)}>
                     <div className="text-red-500 hover:underline">Delete</div>
-                  </ConfirmedAction> */}
+                  </ConfirmedAction>
                 </td>
               </tr>
             ))}
