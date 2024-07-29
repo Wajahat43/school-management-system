@@ -1,5 +1,7 @@
 import { Student } from "@/models/student-model";
 import Link from "next/link";
+import DeleteButton from "../buttons/delete-button";
+import { deleteStudent } from "@/actions/student-actions";
 
 function StudentTable({ students }: { students: Student[] }) {
   return (
@@ -37,7 +39,7 @@ function StudentTable({ students }: { students: Student[] }) {
                     >
                       Edit
                     </Link>
-                    <p>Delete</p>
+                    <DeleteButton id={student.id} deleteAction={deleteStudent} />
                   </div>
                 </td>
               </tr>

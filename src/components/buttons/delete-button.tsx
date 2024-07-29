@@ -3,7 +3,7 @@ function DeleteButton({ id, deleteAction }: { id: string; deleteAction: (id: str
   const deleteActionWithId = deleteAction.bind(null, id);
 
   return (
-    <form action={deleteActionWithId}>
+    <form onSubmit={deleteActionWithId}>
       <button className="text-red-500 hover:underline" type="submit">
         Delete
       </button>
