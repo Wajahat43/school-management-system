@@ -1,7 +1,7 @@
 "use server";
 
 import { Teacher } from "@/models/teacher-model";
-import { readFile, writeFile } from "@/helpers/file-helpers";
+import { readFile, writeFile } from "@/utils/helpers/file-helpers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
