@@ -1,6 +1,7 @@
 import { Student } from "@/models/student-model";
 import React from "react";
 import { updateStudent, addStudent } from "@/actions/student-actions";
+import { Button } from "../ui/button";
 
 function StudentForm({ student }: { student?: Student }) {
   const instanceId = React.useId();
@@ -17,7 +18,7 @@ function StudentForm({ student }: { student?: Student }) {
           id={`${instanceId}-name`}
           name="name"
           placeholder="Enter student's name"
-          className="p-3 rounded-lg text-black lg"
+          className="p-3 rounded-lg dark:bg-white text-black lg"
           required={true}
           defaultValue={student?.name}
         />
@@ -31,7 +32,7 @@ function StudentForm({ student }: { student?: Student }) {
           name="email"
           id={`${instanceId}-email`}
           placeholder="Enter student email"
-          className="p-3 border rounded-lg text-black text-lg"
+          className="p-3 border rounded-lg dark:bg-white text-black text-lg"
           required={true}
           defaultValue={student?.email}
         />
@@ -45,7 +46,7 @@ function StudentForm({ student }: { student?: Student }) {
           name="major"
           id={`${instanceId}-designation`}
           placeholder="Enter student's Major"
-          className="p-3 rounded-lg text-black text-lg"
+          className="p-3 rounded-lg dark:bg-white text-black text-lg"
           required={true}
           defaultValue={student?.major}
         />
@@ -63,9 +64,7 @@ function StudentForm({ student }: { student?: Student }) {
         />
       </div>
       <div className="flex justify-center">
-        <button className="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600">
-          {student ? "Update" : "Add"} Student
-        </button>
+        <Button>{student ? "Update" : "Add"} Student</Button>
       </div>
     </form>
   );

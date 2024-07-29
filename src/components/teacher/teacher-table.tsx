@@ -1,7 +1,7 @@
 import { Teacher } from "@/models/teacher-model";
 import Link from "next/link";
-import DeleteButton from "@/components/buttons/delete-button";
 import { deleteTeacher } from "@/actions/teacher-actions";
+import ConfirmedAction from "../confirmed-action/confirmed-action";
 
 function TeacherTable({ teachers }: { teachers: Teacher[] }) {
   return (
@@ -31,16 +31,17 @@ function TeacherTable({ teachers }: { teachers: Teacher[] }) {
                 <td className="border px-4 py-2">{teacher.email}</td>
                 <td className="border px-4 py-2">{teacher.designation}</td>
                 <td className="border px-4 py-2">{teacher.isTenured ? "Yes" : "No"}</td>
-                <td className="border px-4 py-2">
-                  <div className="flex">
-                    <Link
-                      className="text-blue-500 hover:underline mr-2"
-                      href={`/teachers/edit/${teacher.id}`}
-                    >
-                      Edit
-                    </Link>
-                    <DeleteButton id={teacher.id} deleteAction={deleteTeacher} />
-                  </div>
+                <td className="border px-4 py-2 flex">
+                  <Link
+                    className="text-blue-500 hover:underline mr-2"
+                    href={`/teachers/edit/${teacher.id}`}
+                  >
+                    Edit
+                  </Link>
+
+                  <ConfirmedAction action={deleteTeacher.bind(null, teacher.id)}>
+                    <div className="text-red-500 hover:underline">Delete</div>
+                  </ConfirmedAction>
                 </td>
               </tr>
             ))}

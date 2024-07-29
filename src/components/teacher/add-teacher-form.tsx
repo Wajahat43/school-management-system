@@ -1,5 +1,6 @@
 import React from "react";
 import { addTeacher } from "@/actions/teacher-actions";
+import { Button } from "../ui/button";
 
 export default function AddTeacherForm() {
   const instanceId = React.useId();
@@ -15,7 +16,7 @@ export default function AddTeacherForm() {
           id={`${instanceId}-name`}
           name="name"
           placeholder="Enter teacher's name"
-          className="p-3 rounded-lg text-black lg"
+          className="p-3 rounded-lg dark:bg-white text-black lg"
           required={true}
         />
       </div>
@@ -28,7 +29,7 @@ export default function AddTeacherForm() {
           name="email"
           id={`${instanceId}-email`}
           placeholder="Enter teacher's email"
-          className="p-3 border rounded-lg text-black text-lg"
+          className="p-3 border rounded-lg dark:bg-white text-black text-lg"
           required={true}
         />
       </div>
@@ -41,7 +42,7 @@ export default function AddTeacherForm() {
           name="designation"
           id={`${instanceId}-designation`}
           placeholder="Enter teacher's designation"
-          className="p-3 rounded-lg text-black text-lg"
+          className="p-3 rounded-lg dark:bg-white text-black text-lg"
           required={true}
         />
       </div>
@@ -53,13 +54,11 @@ export default function AddTeacherForm() {
           type="checkbox"
           name="isTenured"
           id={`${instanceId}-istenured`}
-          className="ml-4 size-8 "
+          className="ml-4 size-8"
         />
       </div>
       <div className="flex justify-center">
-        <button className="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600">
-          Add Teacher
-        </button>
+        <Button>Add Teacher</Button>
       </div>
     </form>
   );

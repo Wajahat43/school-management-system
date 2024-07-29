@@ -11,7 +11,7 @@ async function EditTeacher({ params }: { params: { id: string } }) {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-2xl dark:bg-neutral-800 p-8 rounded-lg">
+      <div className="w-full max-w-2xl bg-slate-500 dark:bg-neutral-800 p-8 rounded-lg">
         <h1 className="text-2xl">Edit Teacher</h1>
         <EditTeacherForm teacher={teacher} />
       </div>
