@@ -1,6 +1,6 @@
 import { Student } from "@/models/student-model";
 import Link from "next/link";
-import ConfirmedAction from "../confirmed-action/confirmed-action";
+import ConfirmedAction from "@/components/ui/confirmed-action/confirmed-action";
 import { deleteStudent } from "@/actions/student-actions";
 
 function StudentTable({ students }: { students: Student[] }) {

@@ -2,7 +2,11 @@ import fs from "fs";
 import path from "path";
 
 export function readFile(localPath: string): string {
-  return fs.readFileSync(path.join(process.cwd(), localPath), "utf8");
+  try {
+    return fs.readFileSync(path.join(process.cwd(), localPath), "utf8");
+  } catch (e) {
+    return "";
+  }
 }
 
 export function writeFile(localPath: string, content: string): void {

@@ -1,7 +1,7 @@
 import { Teacher } from "@/models/teacher-model";
 import Link from "next/link";
 import { deleteTeacher } from "@/actions/teacher-actions";
-import ConfirmedAction from "../confirmed-action/confirmed-action";
+import ConfirmedAction from "@/components/ui/confirmed-action/confirmed-action";
 
 function TeacherTable({ teachers }: { teachers: Teacher[] }) {
   return (
