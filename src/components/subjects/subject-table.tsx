@@ -31,17 +31,19 @@ function SubjectTable({ subjects }: { subjects: Subject[] }) {
                 <td className="border px-4 py-2">{subject.description}</td>
                 <td className="border px-4 py-2">{subject.creditHours}</td>
                 <td className="border px-4 py-2">{subject.isCore ? "Yes" : "No"}</td>
-                <td className="border px-4 py-2 flex">
-                  <Link
-                    className="text-blue-500 hover:underline mr-2"
-                    href={`/subjects/edit/${subject.id}`}
-                  >
-                    Edit
-                  </Link>
+                <td className="border px-4 py-2">
+                  <div className="flex">
+                    <Link
+                      className="text-blue-500 hover:underline mr-2"
+                      href={`/subjects/edit/${subject.id}`}
+                    >
+                      Edit
+                    </Link>
 
-                  <ConfirmedAction action={deleteSubject.bind(null, subject.id)}>
-                    <div className="text-red-500 hover:underline">Delete</div>
-                  </ConfirmedAction>
+                    <ConfirmedAction action={deleteSubject.bind(null, subject.id)}>
+                      <div className="text-red-500 hover:underline">Delete</div>
+                    </ConfirmedAction>
+                  </div>
                 </td>
               </tr>
             ))}

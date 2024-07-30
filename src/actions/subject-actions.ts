@@ -5,7 +5,6 @@ import { readFile, writeFile } from "@/utils/helpers/file-helpers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { SUBJECT_FILE_PATH } from "@/utils/constants";
-import exp from "constants";
 
 export async function fetchSubjects(): Promise<Subject[]> {
   const jsonContent = readFile(SUBJECT_FILE_PATH);

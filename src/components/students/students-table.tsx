@@ -31,17 +31,19 @@ function StudentTable({ students }: { students: Student[] }) {
                 <td className="border px-4 py-2">{student.email}</td>
                 <td className="border px-4 py-2">{student.major}</td>
                 <td className="border px-4 py-2">{student.isEnrolled ? "Yes" : "No"}</td>
-                <td className="border px-4 py-2 flex">
-                  <Link
-                    className="text-blue-500 hover:underline mr-2"
-                    href={`/students/edit/${student.id}`}
-                  >
-                    Edit
-                  </Link>
+                <td className="border px-4 py-2">
+                  <div className="flex">
+                    <Link
+                      className="text-blue-500 hover:underline mr-2"
+                      href={`/students/edit/${student.id}`}
+                    >
+                      Edit
+                    </Link>
 
-                  <ConfirmedAction action={deleteStudent.bind(null, student.id)}>
-                    <div className="text-red-500 hover:underline">Delete</div>
-                  </ConfirmedAction>
+                    <ConfirmedAction action={deleteStudent.bind(null, student.id)}>
+                      <div className="text-red-500 hover:underline">Delete</div>
+                    </ConfirmedAction>
+                  </div>
                 </td>
               </tr>
             ))}

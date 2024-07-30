@@ -10,9 +10,9 @@ function TeacherTable({ teachers }: { teachers: Teacher[] }) {
         <thead className="dark:bg-neutral-950">
           <tr>
             <th className="border px-4 py-2 text-left">Name</th>
-            <th className="border  px-4 py-2 text-left">Email</th>
+            <th className="border px-4 py-2 text-left">Email</th>
             <th className="border px-4 py-2 text-left">Designation</th>
-            <th className="border  px-4 py-2 text-left">Is Tenured</th>
+            <th className="border px-4 py-2 text-left">Is Tenured</th>
             <th className="border px-4 py-2 text-left">Actions</th>
           </tr>
         </thead>
@@ -31,17 +31,19 @@ function TeacherTable({ teachers }: { teachers: Teacher[] }) {
                 <td className="border px-4 py-2">{teacher.email}</td>
                 <td className="border px-4 py-2">{teacher.designation}</td>
                 <td className="border px-4 py-2">{teacher.isTenured ? "Yes" : "No"}</td>
-                <td className="border px-4 py-2 flex">
-                  <Link
-                    className="text-blue-500 hover:underline mr-2"
-                    href={`/teachers/edit/${teacher.id}`}
-                  >
-                    Edit
-                  </Link>
+                <td className="border px-4 py-2">
+                  <div className="flex">
+                    <Link
+                      className="text-blue-500 hover:underline mr-2"
+                      href={`/teachers/edit/${teacher.id}`}
+                    >
+                      Edit
+                    </Link>
 
-                  <ConfirmedAction action={deleteTeacher.bind(null, teacher.id)}>
-                    <div className="text-red-500 hover:underline">Delete</div>
-                  </ConfirmedAction>
+                    <ConfirmedAction action={deleteTeacher.bind(null, teacher.id)}>
+                      <div className="text-red-500 hover:underline">Delete</div>
+                    </ConfirmedAction>
+                  </div>
                 </td>
               </tr>
             ))}
