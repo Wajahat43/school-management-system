@@ -6,6 +6,7 @@ function Header() {
     { title: "Teachers", path: "/teachers" },
     { title: "Students", path: "/students" },
     { title: "Subjects", path: "/subjects" },
+    { title: "Grades", path: "/grades" },
   ];
   return (
     <header className="flex flex-col items-center justify-between gap-2 px-24 py-4 min-h-20 md:flex-row">
