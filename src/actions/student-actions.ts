@@ -5,6 +5,8 @@ import { readFile, writeFile } from "@/utils/helpers/file-helpers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { STUDENT_FILE_PATH } from "@/utils/constants";
+import { STUDENT_GRADE_FILE_PATH } from "@/utils/constants";
+import { StudentGrade } from "@/models/student-grade-model";
 
 export async function fetchStudents(): Promise<Student[]> {
   const jsonContent = readFile(STUDENT_FILE_PATH);
@@ -67,4 +69,11 @@ export async function deleteStudent(id: string): Promise<void> {
   writeFile(STUDENT_FILE_PATH, JSON.stringify(students));
   revalidatePath("/students");
   redirect("/students");
+}
+
+export async function fetchStudentGrades(): Promise<StudentGrade[]> {
+  const jsonContent = readFile(STUDENT_GRADE_FILE_PATH);
+  if (!jsonContent) return [];
+  const studentGrades: StudentGrade[] = JSON.parse(jsonContent);
+  return studentGrades;
 }

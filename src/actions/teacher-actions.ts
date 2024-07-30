@@ -4,9 +4,12 @@ import { Teacher } from "@/models/teacher-model";
 import { readFile, writeFile } from "@/utils/helpers/file-helpers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { STUDENT_GRADE_FILE_PATH } from "@/utils/constants";
+import { TEACHER_FILE_PATH } from "@/utils/constants";
+import { fetchStudentGrades } from "./student-actions";
 
 export async function fetchTeachers(): Promise<Teacher[]> {
-  const jsonContent = readFile("data/teachers-data.json");
+  const jsonContent = readFile(TEACHER_FILE_PATH);
   if (!jsonContent) return [];
   const teachers: Teacher[] = JSON.parse(jsonContent);
   return teachers;
@@ -27,7 +30,7 @@ export async function addTeacher(formData: FormData): Promise<void> {
   };
   teachers.push(teacher);
 
-  writeFile("data/teachers-data.json", JSON.stringify(teachers));
+  writeFile(TEACHER_FILE_PATH, JSON.stringify(teachers));
   revalidatePath("/teachers");
 
   redirect("/teachers");
@@ -46,7 +49,7 @@ export async function editTeacher(id: string, formData: FormData): Promise<void>
     isTenured: (formData.get("isTenured") ? true : false) as boolean,
   };
 
-  writeFile("data/teachers-data.json", JSON.stringify(teachers));
+  writeFile(TEACHER_FILE_PATH, JSON.stringify(teachers));
   revalidatePath("/teachers");
   redirect("/teachers");
 }
@@ -61,5 +64,22 @@ export async function deleteTeacher(id: string): Promise<void> {
   writeFile("data/teachers-data.json", JSON.stringify(teachers));
 
   revalidatePath("/teachers");
+  redirect("/teachers");
+}
+
+export async function assignGrade(formData: FormData): Promise<void> {
+  const studentGrades = await fetchStudentGrades();
+
+  const studentGrade = {
+    id: crypto.randomUUID(),
+    studentId: formData.get("student") as string,
+    subjectId: formData.get("subject") as string,
+    gradeId: formData.get("grade") as string,
+  };
+
+  studentGrades.push(studentGrade);
+
+  writeFile(STUDENT_GRADE_FILE_PATH, JSON.stringify(studentGrades));
+
   redirect("/teachers");
 }
