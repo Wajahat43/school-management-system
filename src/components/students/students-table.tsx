@@ -13,6 +13,7 @@ function StudentTable({ students }: { students: Student[] }) {
             <th className="border px-4 py-2 text-left">Email</th>
             <th className="border px-4 py-2 text-left">Major</th>
             <th className="border px-4 py-2 text-left">Enrolled</th>
+            <th className="border px-4 py-2 text-left">Grades</th>
             <th className="border px-4 py-2 text-left">Actions</th>
           </tr>
         </thead>
@@ -32,7 +33,12 @@ function StudentTable({ students }: { students: Student[] }) {
                 <td className="border px-4 py-2">{student.major}</td>
                 <td className="border px-4 py-2">{student.isEnrolled ? "Yes" : "No"}</td>
                 <td className="border px-4 py-2">
-                  <div className="flex">
+                  <Link href={`/students/${student.id}/grades`}>
+                    <div className="text-blue-500 hover:underline">View grades</div>
+                  </Link>
+                </td>
+                <td className="border px-4 py-2">
+                  <div className="flex gap-2">
                     <Link
                       className="text-blue-500 hover:underline mr-2"
                       href={`/students/edit/${student.id}`}

@@ -6,7 +6,9 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { STUDENT_FILE_PATH } from "@/utils/constants";
 import { STUDENT_GRADE_FILE_PATH } from "@/utils/constants";
-import { StudentGrade } from "@/models/student-grade-model";
+import { FormattedStudentGrade, StudentGrade } from "@/models/student-grade-model";
+import { fetchGrades } from "@/actions/grade-actions";
+import { fetchSubjects } from "@/actions/subject-actions";
 
 export async function fetchStudents(): Promise<Student[]> {
   const jsonContent = readFile(STUDENT_FILE_PATH);
@@ -76,4 +78,37 @@ export async function fetchStudentGrades(): Promise<StudentGrade[]> {
   if (!jsonContent) return [];
   const studentGrades: StudentGrade[] = JSON.parse(jsonContent);
   return studentGrades;
+}
+
+export async function fetchFormattedGradesByStudentId(
+  studentId: string
+): Promise<FormattedStudentGrade[]> {
+  //Return following data for each grades
+  //Student Name, Subject Name, Grade Name and Grade GPA
+  const studentGrades = await fetchStudentGrades();
+  const students = await fetchStudents();
+  const grades = await fetchGrades();
+  const subjects = await fetchSubjects();
+
+  const currentStudentGrades = studentGrades.filter(
+    (studentGrade) => studentGrade.studentId === studentId
+  );
+
+  const result: FormattedStudentGrade[] = [];
+
+  currentStudentGrades.map((studentGrade) => {
+    const student = students.find((student) => student.id === studentGrade.studentId);
+    const grade = grades.find((grade) => grade.id === studentGrade.gradeId);
+    const subject = subjects.find((subject) => subject.id === studentGrade.subjectId);
+
+    const gradeResult: FormattedStudentGrade = {
+      studentName: student?.name,
+      gradeName: grade?.name,
+      gradeGPA: grade?.gpa,
+      subjectName: subject?.name,
+    };
+    result.push(gradeResult);
+  });
+
+  return result;
 }
