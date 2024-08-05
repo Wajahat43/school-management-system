@@ -18,6 +18,23 @@ export async function fetchTeachers(): Promise<Teacher[]> {
   return teachers;
 }
 
+export async function fetchPaginatedTeachers(
+  query: string = "",
+  offset: number = 0,
+  limit: number = 10
+): Promise<Teacher[]> {
+  const teachers = await fetchTeachers();
+  const filteredTeachers = teachers.filter((teacher) => {
+    const teacherProperties = Object.values(teacher);
+    const stringProperties = teacherProperties.filter((property) => typeof property === "string");
+
+    return stringProperties.some((property) =>
+      property.toLowerCase().includes(query.toLowerCase())
+    );
+  });
+
+  return filteredTeachers.slice(offset, offset + limit);
+}
 export async function fetchTeacherById(id: string): Promise<Teacher | undefined> {
   const teachers = await fetchTeachers();
   return teachers.find((teacher) => teacher.id === id);

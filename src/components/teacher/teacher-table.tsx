@@ -1,11 +1,15 @@
 import { Teacher } from "@/models/teacher-model";
 import Link from "next/link";
-import { deleteTeacher } from "@/actions/teacher-actions";
+import { deleteTeacher, fetchPaginatedTeachers } from "@/actions/teacher-actions";
 import ConfirmedAction from "@/components/ui/confirmed-action/confirmed-action";
-import { fetchTeachers } from "@/actions/teacher-actions";
+import { SearchParams } from "@/models/search-params";
 
-async function TeacherTable() {
-  const teachers = await fetchTeachers();
+async function TeacherTable({ searchParams }: { searchParams: SearchParams }) {
+  const teachers = await fetchPaginatedTeachers(
+    searchParams.query,
+    searchParams.offset,
+    searchParams.limit
+  );
 
   return (
     <div className="overflow-x-auto">
