@@ -2,8 +2,10 @@ import { Student } from "@/models/student-model";
 import Link from "next/link";
 import ConfirmedAction from "@/components/ui/confirmed-action/confirmed-action";
 import { deleteStudent } from "@/actions/student-actions";
+import { fetchStudents } from "@/actions/student-actions";
 
-function StudentTable({ students }: { students: Student[] }) {
+async function StudentTable() {
+  const students = await fetchStudents();
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full min-h-full border-collapse borde">

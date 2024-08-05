@@ -2,8 +2,10 @@ import { Subject } from "@/models/subject-model";
 import Link from "next/link";
 import ConfirmedAction from "@/components/ui/confirmed-action/confirmed-action";
 import { deleteSubject } from "@/actions/subject-actions";
+import { fetchSubjects } from "@/actions/subject-actions";
 
-function SubjectTable({ subjects }: { subjects: Subject[] }) {
+async function SubjectTable() {
+  const subjects = await fetchSubjects();
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full min-h-full border-collapse borde">

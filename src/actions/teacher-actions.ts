@@ -9,6 +9,9 @@ import { TEACHER_FILE_PATH } from "@/utils/constants";
 import { fetchStudentGrades } from "./student-actions";
 
 export async function fetchTeachers(): Promise<Teacher[]> {
+  // Delay to simulate network request
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
   const jsonContent = readFile(TEACHER_FILE_PATH);
   if (!jsonContent) return [];
   const teachers: Teacher[] = JSON.parse(jsonContent);

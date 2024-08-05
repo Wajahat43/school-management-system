@@ -11,6 +11,9 @@ import { fetchGrades } from "@/actions/grade-actions";
 import { fetchSubjects } from "@/actions/subject-actions";
 
 export async function fetchStudents(): Promise<Student[]> {
+  //Artifical delay for testing
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
   const jsonContent = readFile(STUDENT_FILE_PATH);
   if (!jsonContent) return [];
   const students: Student[] = JSON.parse(jsonContent);

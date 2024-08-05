@@ -1,10 +1,10 @@
-import { fetchSubjects } from "@/actions/subject-actions";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import SubjectTable from "@/components/subjects/subject-table";
+import SubjectTableSkeleton from "@/components/subjects/subject-table-skeleton";
+import { Suspense } from "react";
 
 async function Subjects() {
-  const subjects = await fetchSubjects();
   return (
     <div className="w-full px-10 md:px-60 dark:bg-neutral-900 h-screen pt-16">
       <div className="flex flex-col md:flex-row w-full items-center justify-between md:gap-2">
@@ -14,7 +14,9 @@ async function Subjects() {
         </Link>
       </div>
       <div className="mt-4">
-        <SubjectTable subjects={subjects} />
+        <Suspense fallback={<SubjectTableSkeleton />}>
+          <SubjectTable />
+        </Suspense>
       </div>
     </div>
   );

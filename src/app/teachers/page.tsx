@@ -1,10 +1,10 @@
-import { fetchTeachers } from "@/actions/teacher-actions";
 import TeacherTable from "@/components/teacher/teacher-table";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import TeacherTableSkeleton from "@/components/teacher/teacher-table-skeleton";
+import { Suspense } from "react";
 
 async function Teachers() {
-  const teachers = await fetchTeachers();
   return (
     <div className="w-full px-10 md:px-60 dark:bg-neutral-900 h-screen pt-16">
       <div className="flex flex-col md:flex-row w-full items-center justify-between md:gap-2">
@@ -19,7 +19,9 @@ async function Teachers() {
         </div>
       </div>
       <div className="mt-4">
-        <TeacherTable teachers={teachers} />
+        <Suspense fallback={<TeacherTableSkeleton />}>
+          <TeacherTable />
+        </Suspense>
       </div>
     </div>
   );

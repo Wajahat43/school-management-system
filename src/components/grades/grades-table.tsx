@@ -2,8 +2,11 @@ import { Grade } from "@/models/grades-model";
 import Link from "next/link";
 import ConfirmedAction from "@/components/ui/confirmed-action/confirmed-action";
 import { deleteGrade } from "@/actions/grade-actions";
+import { fetchGrades } from "@/actions/grade-actions";
 
-function GradesTable({ grades }: { grades: Grade[] }) {
+async function GradesTable() {
+  const grades = await fetchGrades();
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full min-h-full border-collapse borde">

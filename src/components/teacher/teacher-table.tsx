@@ -2,8 +2,11 @@ import { Teacher } from "@/models/teacher-model";
 import Link from "next/link";
 import { deleteTeacher } from "@/actions/teacher-actions";
 import ConfirmedAction from "@/components/ui/confirmed-action/confirmed-action";
+import { fetchTeachers } from "@/actions/teacher-actions";
 
-function TeacherTable({ teachers }: { teachers: Teacher[] }) {
+async function TeacherTable() {
+  const teachers = await fetchTeachers();
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full min-h-full border-collapse borde">

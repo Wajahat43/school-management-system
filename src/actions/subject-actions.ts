@@ -7,6 +7,9 @@ import { revalidatePath } from "next/cache";
 import { SUBJECT_FILE_PATH } from "@/utils/constants";
 
 export async function fetchSubjects(): Promise<Subject[]> {
+  // Delay to simulate network request
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
   const jsonContent = readFile(SUBJECT_FILE_PATH);
   if (!jsonContent) return [];
   const subjects: Subject[] = JSON.parse(jsonContent);
