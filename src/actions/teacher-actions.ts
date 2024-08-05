@@ -7,6 +7,12 @@ import { revalidatePath } from "next/cache";
 import { STUDENT_GRADE_FILE_PATH } from "@/utils/constants";
 import { TEACHER_FILE_PATH } from "@/utils/constants";
 import { fetchStudentGrades } from "./student-actions";
+import { off } from "process";
+
+interface PaginatedTeachers {
+  maxRecords: number;
+  teachers: Teacher[];
+}
 
 export async function fetchTeachers(): Promise<Teacher[]> {
   // Delay to simulate network request
@@ -22,19 +28,39 @@ export async function fetchPaginatedTeachers(
   query: string = "",
   offset: number = 0,
   limit: number = 10
-): Promise<Teacher[]> {
-  const teachers = await fetchTeachers();
-  const filteredTeachers = teachers.filter((teacher) => {
-    const teacherProperties = Object.values(teacher);
-    const stringProperties = teacherProperties.filter((property) => typeof property === "string");
+): Promise<PaginatedTeachers> {
+  try {
+    const teachers = await fetchTeachers();
+    const filteredTeachers = teachers.filter((teacher) => {
+      const teacherProperties = Object.values(teacher);
+      const stringProperties = teacherProperties.filter((property) => typeof property === "string");
 
-    return stringProperties.some((property) =>
-      property.toLowerCase().includes(query.toLowerCase())
+      return stringProperties.some((property) =>
+        property.toLowerCase().includes(query.toLowerCase())
+      );
+    });
+
+    const totalRecords = filteredTeachers.length;
+    const adjustedOffset = Math.min(offset, totalRecords - 1);
+    const adjustedLimit = Math.min(limit, totalRecords - adjustedOffset);
+
+    const paginatedTeachers = filteredTeachers.slice(
+      adjustedOffset,
+      adjustedLimit + adjustedOffset
     );
-  });
-
-  return filteredTeachers.slice(offset, offset + limit);
+    return {
+      maxRecords: filteredTeachers.length,
+      teachers: paginatedTeachers,
+    };
+  } catch (error) {
+    console.error("Error fetching teachers:", error);
+    return {
+      maxRecords: 0,
+      teachers: [],
+    };
+  }
 }
+
 export async function fetchTeacherById(id: string): Promise<Teacher | undefined> {
   const teachers = await fetchTeachers();
   return teachers.find((teacher) => teacher.id === id);

@@ -8,7 +8,6 @@ function AddTeacherPage() {
           <span className="text-2xl text-left block ">Add Teacher</span>
         </div>
         <AddTeacherForm />
-        <AddTeacherForm />
       </div>
     </div>
   );

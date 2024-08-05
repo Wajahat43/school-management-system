@@ -1,11 +1,13 @@
-import { Teacher } from "@/models/teacher-model";
 import Link from "next/link";
 import { deleteTeacher, fetchPaginatedTeachers } from "@/actions/teacher-actions";
 import ConfirmedAction from "@/components/ui/confirmed-action/confirmed-action";
 import { SearchParams } from "@/models/search-params";
+import Pagination from "../pagination/Pagination";
+
+export const dynamic = "force-dynamic";
 
 async function TeacherTable({ searchParams }: { searchParams: SearchParams }) {
-  const teachers = await fetchPaginatedTeachers(
+  const { teachers, maxRecords } = await fetchPaginatedTeachers(
     searchParams.query,
     searchParams.offset,
     searchParams.limit
@@ -56,6 +58,9 @@ async function TeacherTable({ searchParams }: { searchParams: SearchParams }) {
             ))}
         </tbody>
       </table>
+      <div className="flex justify-center mt-4">
+        <Pagination maxRecords={maxRecords} />
+      </div>
     </div>
   );
 }
