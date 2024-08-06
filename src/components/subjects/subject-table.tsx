@@ -1,11 +1,15 @@
-import { Subject } from "@/models/subject-model";
 import Link from "next/link";
 import ConfirmedAction from "@/components/ui/confirmed-action/confirmed-action";
-import { deleteSubject } from "@/actions/subject-actions";
-import { fetchSubjects } from "@/actions/subject-actions";
+import { deleteSubject, fetchPaginatedSubjects } from "@/actions/subject-actions";
+import Pagination from "../pagination/Pagination";
+import { SearchParams } from "@/models/search-params";
 
-async function SubjectTable() {
-  const subjects = await fetchSubjects();
+async function SubjectTable({ searchParams }: { searchParams: SearchParams }) {
+  const { subjects, maxRecords } = await fetchPaginatedSubjects(
+    searchParams.query,
+    searchParams.offset,
+    searchParams.limit
+  );
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full min-h-full border-collapse borde">
@@ -51,6 +55,9 @@ async function SubjectTable() {
             ))}
         </tbody>
       </table>
+      <div className="flex justify-center mt-4">
+        <Pagination maxRecords={maxRecords} />
+      </div>
     </div>
   );
 }

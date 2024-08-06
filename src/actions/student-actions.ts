@@ -20,6 +20,25 @@ export async function fetchStudents(): Promise<Student[]> {
   return students;
 }
 
+export async function fetchPaginatedStudents(
+  query: string = "",
+  offset: number = 0,
+  limit: number = 10
+): Promise<{ students: Student[]; maxRecords: number }> {
+  const students = await fetchStudents();
+  const filteredStudents = students.filter((student) => {
+    return student.name.toLowerCase().includes(query.toLowerCase());
+  });
+
+  const maxRecords = filteredStudents.length;
+  const maxOffset = Math.min(offset, maxRecords - 1);
+  const maxLimit = Math.min(limit, maxRecords - maxOffset);
+
+  const paginatedStudents = filteredStudents.slice(maxOffset, maxOffset + maxLimit);
+
+  return { students: paginatedStudents, maxRecords };
+}
+
 export async function fetchStudentById(id: string): Promise<Student | undefined> {
   const students = await fetchStudents();
   return students.find((student) => student.id === id);
@@ -86,8 +105,6 @@ export async function fetchStudentGrades(): Promise<StudentGrade[]> {
 export async function fetchFormattedGradesByStudentId(
   studentId: string
 ): Promise<FormattedStudentGrade[]> {
-  //Return following data for each grades
-  //Student Name, Subject Name, Grade Name and Grade GPA
   const studentGrades = await fetchStudentGrades();
   const students = await fetchStudents();
   const grades = await fetchGrades();

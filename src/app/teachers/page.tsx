@@ -13,8 +13,8 @@ async function Teachers({ searchParams }: { searchParams: SearchParams }) {
   return (
     <div className="w-full px-10 md:px-60 dark:bg-neutral-900 h-screen pt-16">
       <div className="flex flex-col md:flex-row w-full items-center justify-between md:gap-2">
-        <h1 className="text-2xl">Teachers</h1>
-        <div className="flex flex-col md:flex-row gap-2">
+        <h1 className="text-2xl mb-4">Teachers</h1>
+        <div className="flex flex-col md:flex-row md:gap-2">
           <Link href="/teachers/grades/assign">
             <Button variant={"link"}>Assign Grade</Button>
           </Link>

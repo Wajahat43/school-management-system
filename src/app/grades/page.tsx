@@ -10,7 +10,7 @@ async function Grades() {
       <div className="flex flex-col md:flex-row w-full items-center justify-between md:gap-2">
         <h1 className="text-2xl">Grades</h1>
         <Link href="/grades/add">
-          <Button>Add Grade</Button>
+          <Button variant={"link"}>Add Grade</Button>
         </Link>
       </div>
       <div className="mt-4">

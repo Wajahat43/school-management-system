@@ -16,6 +16,25 @@ export async function fetchSubjects(): Promise<Subject[]> {
   return subjects;
 }
 
+export async function fetchPaginatedSubjects(
+  query: string = "",
+  offset: number = 0,
+  limit: number = 10
+): Promise<{ subjects: Subject[]; maxRecords: number }> {
+  const subjects = await fetchSubjects();
+  const filteredSubjects = subjects.filter((subject) => {
+    return subject.name.toLowerCase().includes(query.toLowerCase());
+  });
+
+  const maxRecords = filteredSubjects.length;
+  const adjustedOffset = Math.min(offset, maxRecords - 1);
+  const adjustedLimit = Math.min(limit, maxRecords - adjustedOffset);
+
+  const paginatedSubjects = filteredSubjects.slice(adjustedOffset, adjustedLimit + adjustedOffset);
+
+  return { subjects: paginatedSubjects, maxRecords };
+}
+
 export async function fetchSubjectById(id: string): Promise<Subject | undefined> {
   const subjects = await fetchSubjects();
   return subjects.find((subject) => subject.id === id);

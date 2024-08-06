@@ -45,7 +45,7 @@ function Search({
 
       <input
         {...rest}
-        className="p-3 md:w-3/4 dark:text-neutral-900 h-12 w-full border-l-0 dark:bg-white flex-1 focus:outline-none rounded-xl"
+        className="p-3 md:w-3/4 dark:text-neutral-900 w-full border-l-0 dark:bg-neutral-50 flex-1 focus:outline-none rounded-xl"
         name="query"
         placeholder={placeholder}
         defaultValue={searchParams.get("query")?.toString()}
