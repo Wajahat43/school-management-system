@@ -1,11 +1,10 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { fetchGradeById } from "@/actions/grade-actions";
 import { notFound } from "next/navigation";
 import GradeForm from "@/components/grades/grades-form";
 
 async function EditGrade({ params }: { params: { id: string } }) {
   const grade = await fetchGradeById(params.id);
-  console.log(grade, params.id);
 
   if (!grade) {
     notFound();

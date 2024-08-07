@@ -1,9 +1,17 @@
 import { Student } from "@/models/student-model";
 import Link from "next/link";
 import ConfirmedAction from "@/components/ui/confirmed-action/confirmed-action";
-import { deleteStudent } from "@/actions/student-actions";
+import { deleteStudent, fetchPaginatedStudents } from "@/actions/student-actions";
+import { SearchParams } from "@/models/search-params";
+import Pagination from "@/components/pagination/Pagination";
 
-function StudentTable({ students }: { students: Student[] }) {
+async function StudentTable({ searchParams }: { searchParams: SearchParams }) {
+  const { students, maxRecords } = await fetchPaginatedStudents(
+    searchParams.query,
+    searchParams.offset,
+    searchParams.limit
+  );
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full min-h-full border-collapse borde">
@@ -55,6 +63,9 @@ function StudentTable({ students }: { students: Student[] }) {
             ))}
         </tbody>
       </table>
+      <div className="flex justify-center mt-4">
+        <Pagination maxRecords={maxRecords} />
+      </div>
     </div>
   );
 }
