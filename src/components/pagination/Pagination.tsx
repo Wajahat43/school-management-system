@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button/button";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 interface PaginationProps {

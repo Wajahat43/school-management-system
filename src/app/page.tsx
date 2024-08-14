@@ -1,4 +1,4 @@
-import Grades from "./grades/page";
+import Grades from "./(grades)/grades/page";
 
 export default function Home() {
   return (
