@@ -1,13 +1,14 @@
 import Link from "next/link";
 import React from "react";
 
+const navLinks = [
+  { title: "Teachers", path: "/teachers" },
+  { title: "Students", path: "/students" },
+  { title: "Subjects", path: "/subjects" },
+  { title: "Grades", path: "/grades" },
+];
+
 function Header() {
-  const navLinks = [
-    { title: "Teachers", path: "/teachers" },
-    { title: "Students", path: "/students" },
-    { title: "Subjects", path: "/subjects" },
-    { title: "Grades", path: "/grades" },
-  ];
   return (
     <header className="flex flex-col items-center justify-between gap-2 px-24 py-4 min-h-20 md:flex-row">
       <Link className="hover:scale-105" href="/">
