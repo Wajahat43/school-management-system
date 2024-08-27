@@ -4,11 +4,11 @@ import GradesForm from "@/app/(grades)/_components/grades-form";
 async function AddGrade() {
   const grades = await fetchGrades();
 
-  if (grades.length >= 7) {
+  if (grades.length >= 8) {
     return (
       <div className="flex justify-center items-center min-h-48">
         <p className="text-lg">
-          Maximum of 7 grades are allowed. Please delete any grade to add new.
+          Maximum of 8 grades are allowed. Please delete any grade to add new.
         </p>
       </div>
     );

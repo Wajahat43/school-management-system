@@ -47,7 +47,7 @@ function Pagination({ defaultOffset = 0, defaultLimit = 10, maxRecords }: Pagina
           id="limitSelect"
           defaultValue={""}
           onChange={handleLimitChange}
-          className=" h-10 bg-neutral-90 dark:bg-neutral-50 dark:text-neutral-900 text-white text-lg rounded-lg w-32 text-center hover:cursor-pointer"
+          className=" h-10 bg-neutral-900 bg-neutral-90 dark:bg-neutral-50 dark:text-neutral-900 text-white text-lg rounded-lg w-32 text-center hover:cursor-pointer"
         >
           <option value="" disabled>
             Rows
@@ -58,12 +58,15 @@ function Pagination({ defaultOffset = 0, defaultLimit = 10, maxRecords }: Pagina
           <option value={20}>20</option>
         </select>
       </div>
-      <Button onClick={() => setOffset(offset - limit)} disabled={offset - limit < 0}>
+      <Button 
+      
+      onClick={() => setOffset(offset - limit)} disabled={offset - limit < 0 }>
         Previous Page
       </Button>
       <Button
         onClick={() => setOffset(offset + limit)}
         disabled={maxRecords != undefined && offset + limit >= maxRecords}
+        
       >
         Next Page
       </Button>
