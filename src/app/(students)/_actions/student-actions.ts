@@ -26,6 +26,9 @@ export async function fetchPaginatedStudents(
   limit: number = 10
 ): Promise<{ students: Student[]; maxRecords: number }> {
   const students = await fetchStudents();
+
+  students.sort((first,second)=> (second.name.localeCompare(first.name)));
+
   const filteredStudents = students.filter((student) => {
     return student.name.toLowerCase().includes(query.toLowerCase());
   });
@@ -35,6 +38,8 @@ export async function fetchPaginatedStudents(
   const maxLimit = Math.min(limit, maxRecords - maxOffset);
 
   const paginatedStudents = filteredStudents.slice(maxOffset, maxOffset + maxLimit);
+
+  
 
   return { students: paginatedStudents, maxRecords };
 }
@@ -62,19 +67,19 @@ export async function addStudent(formData: FormData): Promise<void> {
 
 export async function updateStudent(id: string, formData: FormData): Promise<void> {
   const students = await fetchStudents();
-  const student: Student = {
+  const updatedStudent: Student = {
     id: id,
     name: formData.get("name") as string,
     email: formData.get("email") as string,
     major: formData.get("major") as string,
     isEnrolled: (formData.get("isEnrolled") ? true : false) as boolean,
   };
-  const index = students.findIndex((student) => student.id === student.id);
+  const index = students.findIndex((student) => student.id === updatedStudent.id);
   if (index === -1) {
     throw new Error("Student not found");
   }
 
-  students[index] = student;
+  students[index] = updatedStudent;
 
   writeFile(STUDENT_FILE_PATH, JSON.stringify(students));
   revalidatePath("/students");

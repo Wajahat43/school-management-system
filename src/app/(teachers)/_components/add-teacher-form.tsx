@@ -1,12 +1,28 @@
+'use client';
 import React from "react";
-import { addTeacher } from "@/app/(teachers)/_actions/teacher-actions";
 import { Button } from "@/components/button/button";
+import { useAddTeacherMutation } from "@/redux/teachers/service";
+import { useRouter } from "next/navigation";
+
 
 export default function AddTeacherForm() {
   const instanceId = React.useId();
+  const router = useRouter();
+  const [addTeacher, {isLoading}] = useAddTeacherMutation();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    await addTeacher(formData);
+    const query = formData.get("name") as string;
+    router.push(`/teachers?query=${query}`);
+    }
+    
+  
 
   return (
-    <form className="w-full max-w-2xl dark:bg-neutral-800 p-8 rounded-lg" action={addTeacher}>
+    <form className="w-full max-w-2xl dark:bg-neutral-800 p-8 rounded-lg" onSubmit={handleSubmit}>
       <div className="flex flex-col mb-4">
         <label htmlFor={`${instanceId}-name`} className="mb-2 font-semibold">
           Name
@@ -58,7 +74,7 @@ export default function AddTeacherForm() {
         />
       </div>
       <div className="flex justify-center">
-        <Button>Add Teacher</Button>
+        <Button disabled={isLoading}>Add Teacher</Button>
       </div>
     </form>
   );

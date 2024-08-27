@@ -25,9 +25,8 @@ async function Teachers({ searchParams }: { searchParams: SearchParams }) {
       </div>
       <Search placeholder="Search Teachers" />
       <div className="mt-4">
-        <Suspense key={`${query}${offset}${limit}`} fallback={<TeacherTableSkeleton />}>
+        
           <TeacherTable searchParams={searchParams} />
-        </Suspense>
       </div>
     </div>
   );

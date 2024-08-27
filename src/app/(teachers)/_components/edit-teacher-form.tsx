@@ -1,14 +1,37 @@
-import React from "react";
-import { editTeacher } from "@/app/(teachers)/_actions/teacher-actions";
-import { Teacher } from "@/app/(teachers)/_utils/types";
-import { Button } from "@/components/button/button";
+'use client'
 
-export default function EditTeacherForm({ teacher }: { teacher: Teacher }) {
+import React from "react";
+
+import { Button } from "@/components/button/button";
+import {useGetTeacherByIdQuery, useUpdateTeacherMutation} from "@/redux/teachers/service";
+import { useRouter } from "next/navigation";
+
+export default function EditTeacherForm({ teacherId }: { teacherId: string }) {
   const instanceId = React.useId();
-  const editTeacherWithId = editTeacher.bind(null, teacher.id);
+  const router = useRouter();
+  const { data: teacher, error,isLoading } = useGetTeacherByIdQuery(teacherId);
+  const [updateTeacher, {isLoading: updateLoading}] = useUpdateTeacherMutation();
+
+  if(isLoading){
+    return <h1>Loading teacher data...</h1>
+  }
+ 
+  if (error  || !teacher) {
+    return <h1> Data  notf ound</h1>;
+  }
+
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    await updateTeacher({id: teacherId, formData});
+    router.push(`/teachers/?query=${formData.get("name")}`);
+  
+  }
 
   return (
-    <form className="w-full max-w-2x p-8 rounded-lg" action={editTeacherWithId}>
+    <form className="w-full max-w-2x p-8 rounded-lg" onSubmit={handleSubmit}>
       <div className="flex flex-col mb-4">
         <label htmlFor={`${instanceId}-name`} className="mb-2 font-semibold">
           Name
@@ -64,7 +87,7 @@ export default function EditTeacherForm({ teacher }: { teacher: Teacher }) {
         />
       </div>
       <div className="flex justify-center">
-        <Button>Edit Teacher</Button>
+        <Button disabled={updateLoading}>Edit Teacher</Button>
       </div>
     </form>
   );
