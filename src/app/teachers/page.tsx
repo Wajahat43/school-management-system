@@ -1,25 +1,33 @@
-import { fetchTeachers } from "@/actions/teacher-actions";
 import TeacherTable from "@/components/teacher/teacher-table";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import TeacherTableSkeleton from "@/components/teacher/teacher-table-skeleton";
+import { Suspense } from "react";
+import Search from "@/components/search/search";
+import { SearchParams } from "@/models/search-params";
 
-async function Teachers() {
-  const teachers = await fetchTeachers();
+async function Teachers({ searchParams }: { searchParams: SearchParams }) {
+  const query = searchParams?.query || "";
+  const offset = searchParams?.offset || 0;
+  const limit = searchParams?.limit || 10;
   return (
     <div className="w-full px-10 md:px-60 dark:bg-neutral-900 h-screen pt-16">
       <div className="flex flex-col md:flex-row w-full items-center justify-between md:gap-2">
-        <h1 className="text-2xl">Teachers</h1>
-        <div className="flex gap-2">
+        <h1 className="text-2xl mb-4">Teachers</h1>
+        <div className="flex flex-col md:flex-row md:gap-2">
           <Link href="/teachers/grades/assign">
-            <Button>Assign Grade</Button>
+            <Button variant={"link"}>Assign Grade</Button>
           </Link>
           <Link href="/teachers/add">
-            <Button>Add Teacher</Button>
+            <Button variant="link">Add Teacher</Button>
           </Link>
         </div>
       </div>
+      <Search placeholder="Search Teachers" />
       <div className="mt-4">
-        <TeacherTable teachers={teachers} />
+        <Suspense key={`${query}${offset}${limit}`} fallback={<TeacherTableSkeleton />}>
+          <TeacherTable searchParams={searchParams} />
+        </Suspense>
       </div>
     </div>
   );

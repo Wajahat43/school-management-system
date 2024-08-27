@@ -1,21 +1,31 @@
-import { fetchStudents } from "@/actions/student-actions";
-import StudentTable from "@/components/students/students-table";
+import StudentTableSkeleton from "@/components/students/student-table-skeleton";
+import StudentTable from "@/components/students/student-table";
 import { Button } from "@/components/ui/button";
 
 import Link from "next/link";
+import { Suspense } from "react";
+import Search from "@/components/search/search";
+import { SearchParams } from "@/models/search-params";
 
-async function StudentsPage() {
-  const students = await fetchStudents();
+async function StudentsPage({ searchParams }: { searchParams: SearchParams }) {
+  const query = searchParams?.query || "";
+  const offset = searchParams?.offset || 0;
+  const limit = searchParams?.limit || 10;
+
   return (
     <div className="w-full px-10 md:px-60 dark:bg-neutral-900 h-screen pt-16">
       <div className="flex flex-col md:flex-row w-full items-center justify-between md:gap-2">
         <h1 className="text-2xl">Students</h1>
+
         <Link href="/students/add">
-          <Button>Add student</Button>
+          <Button variant={"link"}>Add student</Button>
         </Link>
       </div>
+      <Search placeholder="Search Students" />
       <div className="mt-4">
-        <StudentTable students={students} />
+        <Suspense key={`${query}${offset}${limit}`} fallback={<StudentTableSkeleton />}>
+          <StudentTable searchParams={searchParams} />
+        </Suspense>
       </div>
     </div>
   );

@@ -7,6 +7,9 @@ import { revalidatePath } from "next/cache";
 import { GRADE_FILE_PATH } from "@/utils/constants";
 
 export async function fetchGrades(): Promise<Grade[]> {
+  //Artificial delay to simulate network request
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
   const jsonContent = readFile(GRADE_FILE_PATH);
   if (!jsonContent) return [];
   const grades: Grade[] = JSON.parse(jsonContent);

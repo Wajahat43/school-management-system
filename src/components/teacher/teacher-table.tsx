@@ -1,9 +1,18 @@
-import { Teacher } from "@/models/teacher-model";
 import Link from "next/link";
-import { deleteTeacher } from "@/actions/teacher-actions";
+import { deleteTeacher, fetchPaginatedTeachers } from "@/actions/teacher-actions";
 import ConfirmedAction from "@/components/ui/confirmed-action/confirmed-action";
+import { SearchParams } from "@/models/search-params";
+import Pagination from "../pagination/Pagination";
 
-function TeacherTable({ teachers }: { teachers: Teacher[] }) {
+export const dynamic = "force-dynamic";
+
+async function TeacherTable({ searchParams }: { searchParams: SearchParams }) {
+  const { teachers, maxRecords } = await fetchPaginatedTeachers(
+    searchParams.query,
+    searchParams.offset,
+    searchParams.limit
+  );
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full min-h-full border-collapse borde">
@@ -49,6 +58,9 @@ function TeacherTable({ teachers }: { teachers: Teacher[] }) {
             ))}
         </tbody>
       </table>
+      <div className="flex justify-center mt-4">
+        <Pagination maxRecords={maxRecords} />
+      </div>
     </div>
   );
 }

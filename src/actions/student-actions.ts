@@ -11,10 +11,32 @@ import { fetchGrades } from "@/actions/grade-actions";
 import { fetchSubjects } from "@/actions/subject-actions";
 
 export async function fetchStudents(): Promise<Student[]> {
+  //Artifical delay for testing
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
   const jsonContent = readFile(STUDENT_FILE_PATH);
   if (!jsonContent) return [];
   const students: Student[] = JSON.parse(jsonContent);
   return students;
+}
+
+export async function fetchPaginatedStudents(
+  query: string = "",
+  offset: number = 0,
+  limit: number = 10
+): Promise<{ students: Student[]; maxRecords: number }> {
+  const students = await fetchStudents();
+  const filteredStudents = students.filter((student) => {
+    return student.name.toLowerCase().includes(query.toLowerCase());
+  });
+
+  const maxRecords = filteredStudents.length;
+  const maxOffset = Math.min(offset, maxRecords - 1);
+  const maxLimit = Math.min(limit, maxRecords - maxOffset);
+
+  const paginatedStudents = filteredStudents.slice(maxOffset, maxOffset + maxLimit);
+
+  return { students: paginatedStudents, maxRecords };
 }
 
 export async function fetchStudentById(id: string): Promise<Student | undefined> {
@@ -83,8 +105,6 @@ export async function fetchStudentGrades(): Promise<StudentGrade[]> {
 export async function fetchFormattedGradesByStudentId(
   studentId: string
 ): Promise<FormattedStudentGrade[]> {
-  //Return following data for each grades
-  //Student Name, Subject Name, Grade Name and Grade GPA
   const studentGrades = await fetchStudentGrades();
   const students = await fetchStudents();
   const grades = await fetchGrades();
