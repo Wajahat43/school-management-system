@@ -1,9 +1,11 @@
+"use client";
 import React from "react";
 import { Button } from "../../../components/button/button";
 import { Subject } from "@/app/(subjects)/_utils/types";
 import { Student } from "@/app/(students)/_utils/types";
 import { Grade } from "@/app/(grades)/_utils/types";
 import { assignGrade } from "@/app/(teachers)/_actions/teacher-actions";
+import withAuth from "@/utils/hoc/withAuth";
 
 interface AssignGradeFormProps {
   grades: Grade[];
@@ -11,19 +13,22 @@ interface AssignGradeFormProps {
   subjects: Subject[];
 }
 
-async function AssignGradeForm({ grades, students, subjects }: AssignGradeFormProps) {
+function AssignGradeForm({ grades, students, subjects }: AssignGradeFormProps) {
   const instanceId = React.useId();
 
   return (
-    <form className="w-full max-w-2xl dark:bg-neutral-800 p-8 rounded-lg" action={assignGrade}>
-      <div className="flex flex-col mb-4">
+    <form
+      className="w-full max-w-2xl rounded-lg p-8 dark:bg-neutral-800"
+      action={assignGrade}
+    >
+      <div className="mb-4 flex flex-col">
         <label htmlFor={`${instanceId}-student`} className="mb-2 font-semibold">
           Student
         </label>
         <select
           name="student"
           id={`${instanceId}-student`}
-          className="p-3 rounded-lg dark:bg-white text-black text-lg"
+          className="rounded-lg p-3 text-lg text-black dark:bg-white"
           required={true}
         >
           <option value="">Select Student</option>
@@ -34,7 +39,7 @@ async function AssignGradeForm({ grades, students, subjects }: AssignGradeFormPr
           ))}
         </select>
       </div>
-      <div className="flex flex-col mb-4">
+      <div className="mb-4 flex flex-col">
         <label htmlFor={`${instanceId}-subject`} className="mb-2 font-semibold">
           Subject
         </label>
@@ -42,7 +47,7 @@ async function AssignGradeForm({ grades, students, subjects }: AssignGradeFormPr
         <select
           name="subject"
           id={`${instanceId}-subject`}
-          className="p-3 rounded-lg dark:bg-white text-black text-lg"
+          className="rounded-lg p-3 text-lg text-black dark:bg-white"
           required={true}
         >
           <option value="">Select Subject</option>
@@ -53,14 +58,14 @@ async function AssignGradeForm({ grades, students, subjects }: AssignGradeFormPr
           ))}
         </select>
       </div>
-      <div className="flex flex-col mb-4">
+      <div className="mb-4 flex flex-col">
         <label htmlFor={`${instanceId}-grade`} className="mb-2 font-semibold">
           Grade
         </label>
         <select
           name="grade"
           id={`${instanceId}-grade`}
-          className="p-3 rounded-lg dark:bg-white text-black text-lg"
+          className="rounded-lg p-3 text-lg text-black dark:bg-white"
           required={true}
         >
           <option value="">Select Grade</option>
@@ -79,4 +84,4 @@ async function AssignGradeForm({ grades, students, subjects }: AssignGradeFormPr
   );
 }
 
-export default AssignGradeForm;
+export default withAuth(AssignGradeForm);
