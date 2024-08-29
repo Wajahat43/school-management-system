@@ -2,6 +2,7 @@ import AssignGradeForm from "@/app/(teachers)/_components/assign-grade-form";
 import { fetchGrades } from "@/app/(grades)/_actions/grade-actions";
 import { fetchStudents } from "@/app/(students)/_actions/student-actions";
 import { fetchSubjects } from "@/app/(subjects)/_actions/subject-actions";
+import withAuth from "@/utils/hoc/withAuth";
 
 async function AddTeacherPage() {
   const [grades, students, subjects] = await Promise.all([
@@ -10,12 +11,18 @@ async function AddTeacherPage() {
     fetchSubjects(),
   ]);
   return (
-    <div className="w-full bg-slate-500 dark:bg-neutral-900 h-screen flex items-center justify-center">
-      <div className="flex flex-col w-full max-w-lg items-center">
-        <div className="w-full mb-4 px-6">
-          <span className="text-2xl text-left block ">Assign grade to a student</span>
+    <div className="flex h-screen w-full items-center justify-center bg-slate-500 dark:bg-neutral-900">
+      <div className="flex w-full max-w-lg flex-col items-center">
+        <div className="mb-4 w-full px-6">
+          <span className="block text-left text-2xl">
+            Assign grade to a student
+          </span>
         </div>
-        <AssignGradeForm grades={grades} students={students} subjects={subjects} />
+        <AssignGradeForm
+          grades={grades}
+          students={students}
+          subjects={subjects}
+        />
       </div>
     </div>
   );

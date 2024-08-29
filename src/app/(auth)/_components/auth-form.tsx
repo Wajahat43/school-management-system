@@ -3,9 +3,17 @@ import { ConfirmationResult } from "firebase/auth";
 import ConfirmOTP from "./confirm-otp";
 import useNavigateToHomePage from "@/utils/hooks/navigation/use-navigate-to-homepage";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import useNavigateToPage from "../_hooks/use-navigate-to-page";
 
-function AuthForm() {
+interface AuthFormProps {
+  redirect?: string;
+}
+
+function AuthForm({ redirect }: AuthFormProps) {
   const navigateToHomePage = useNavigateToHomePage();
+  const navigateToPage = useNavigateToPage();
+  const router = useRouter();
   const [authMode, setAuthMode] = useState<"signIn" | "signUp">("signIn");
   const [step, setStep] = useState("phone"); // 'phone' or 'otp'
   const [confirmationResult, setConfirmationResult] =
@@ -19,6 +27,15 @@ function AuthForm() {
     return authMode === "signIn"
       ? "Sign in to your account using your phone number"
       : "Create account using your phone number";
+  };
+
+  const onConfirm = () => {
+    if (redirect) {
+      console.log("redirecting to ", redirect);
+      navigateToPage(redirect);
+    } else {
+      navigateToHomePage();
+    }
   };
 
   return (
@@ -38,7 +55,7 @@ function AuthForm() {
         !!confirmationResult && (
           <ConfirmOTP
             confirmationResult={confirmationResult}
-            onConfirm={navigateToHomePage}
+            onConfirm={onConfirm}
           />
         )
       )}
